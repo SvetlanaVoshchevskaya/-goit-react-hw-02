@@ -20,9 +20,9 @@ class Dashboard extends Component {
     this.setState(state => {
       return {
         balance:
-          state.balance === 0
-            ? state.balance + this.sumDepositOperation()
-            : state.balance - this.sumWithdrawOperation(),
+          operation.type === 'Deposit'
+            ? state.balance + operation.amount
+            : state.balance - operation.amount,
         history: [...state.history, bankOperation],
       };
     });
@@ -56,7 +56,7 @@ class Dashboard extends Component {
     const plus = this.sumDepositOperation();
     return (
       <div className={styles.dashboard}>
-        <Controls addChange={this.addOperation} />
+        <Controls balance={balance} addChange={this.addOperation} />
         <Balance minus={minus} plus={plus} balance={balance} />
         <TransactionHistory items={history} />
       </div>

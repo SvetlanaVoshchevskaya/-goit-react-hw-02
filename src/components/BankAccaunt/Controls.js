@@ -4,8 +4,8 @@ import styles from './Dashboard.module.css';
 
 class Controls extends Component {
   state = {
-    amount: 0,
-    type: '',
+    amount: '',
+    type: 'Deposit',
   };
 
   handleChange = event => {
@@ -15,6 +15,18 @@ class Controls extends Component {
   };
 
   handleClick = event => {
+    if (
+      this.state.amount > this.props.balance &&
+      this.state.type !== 'Deposit'
+    ) {
+      alert('На счету недостаточно средств для проведения операции!');
+      return;
+    }
+    if (this.state.amount === 0) {
+      alert('Введите сумму для проведения операции!');
+      return;
+    }
+
     this.props.addChange({ ...this.state });
     this.setState({
       type: event.target.value,
@@ -26,7 +38,6 @@ class Controls extends Component {
 
   render() {
     const { amount } = this.state;
-
     return (
       <section className={styles.controls}>
         <input
@@ -58,8 +69,6 @@ class Controls extends Component {
 
 export default Controls;
 Controls.propTypes = {
-  //   amount: PropTypes.string.isRequired,
-  //   onChange: PropTypes.func.isRequired,
-  //   onClick: PropTypes.func.isRequired,
   addChange: PropTypes.func.isRequired,
+  balance: PropTypes.number.isRequired,
 };
