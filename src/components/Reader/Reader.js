@@ -43,6 +43,7 @@ class Reader extends Component {
         />
         <Counter index={index} length={max} step={step} />
         <Control
+          // max={max}
           index={index}
           handleClickNext={this.handleClickNext}
           handleClickPrevios={this.handleClickPrevios}

@@ -1,45 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './Dashboard.module.css';
 
 class Controls extends Component {
   state = {
     amount: '',
-    type: 'Deposit',
+    type: '',
   };
 
   handleChange = event => {
     this.setState({
-      amount: +event.target.value,
+      [event.target.name]:
+        event.target.name === 'amount'
+          ? +event.target.value
+          : event.target.value,
     });
   };
 
   handleClick = event => {
+    event.preventDefault();
     if (
       this.state.amount > this.props.balance &&
       this.state.type !== 'Deposit'
     ) {
-      alert('На счету недостаточно средств для проведения операции!');
+      toast('На счету недостаточно средств для проведения операции!');
       return;
     }
     if (this.state.amount === 0) {
-      alert('Введите сумму для проведения операции!');
+      toast('Введите сумму для проведения операции!');
       return;
     }
 
     this.props.addChange({ ...this.state });
+
     this.setState({
-      type: event.target.value,
-    });
-    this.setState({
-      amount: 0,
+      amount: '',
     });
   };
 
   render() {
     const { amount } = this.state;
     return (
-      <section className={styles.controls}>
+      <form className={styles.controls} onSubmit={this.handleClick}>
         <input
           type="number"
           name="amount"
@@ -47,22 +51,23 @@ class Controls extends Component {
           onChange={this.handleChange}
         />
         <button
-          type="button"
+          type="submit"
           name="type"
           value="Deposit"
-          onClick={this.handleClick}
+          onClick={this.handleChange}
         >
           Deposit
         </button>
         <button
-          type="button"
+          type="submit"
           name="type"
           value="Withdraw"
-          onClick={this.handleClick}
+          onClick={this.handleChange}
         >
           Withdraw
         </button>
-      </section>
+        <ToastContainer />
+      </form>
     );
   }
 }
