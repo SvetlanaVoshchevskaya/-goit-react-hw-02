@@ -28,8 +28,8 @@ class Controls extends Component {
       toast('На счету недостаточно средств для проведения операции!');
       return;
     }
-    if (this.state.amount === 0) {
-      toast('Введите сумму для проведения операции!');
+    if (this.state.amount <= 0) {
+      toast('Введите сумму для проведения операции !');
       return;
     }
 

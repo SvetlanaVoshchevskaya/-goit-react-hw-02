@@ -9,14 +9,16 @@ const Controls = ({ index, handleClickNext, handleClickPrevios }) => {
       <button
         type="button"
         onClick={handleClickPrevios}
-        className={index === 0 ? styles.disabled : styles.button}
+        className={index <= 0 ? styles.disabled : styles.button}
+        disabled={index <= 0}
       >
         Назад
       </button>
       <button
         type="button"
         onClick={handleClickNext}
-        className={index === 11 ? styles.disabled : styles.button}
+        className={index >= 11 ? styles.disabled : styles.button}
+        disabled={index >= 11}
       >
         Вперед
       </button>
